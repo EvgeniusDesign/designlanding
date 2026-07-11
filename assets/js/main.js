@@ -1,39 +1,20 @@
 /* =====================================================================
-   0) ПРЕЛОАДЕР — ховається, коли готові шрифти й картинка першого екрана
-   (НЕ чекає картинки нижче екрана — вони вантажаться ліниво по скролу).
-   MAX_WAIT_MS — запобіжник: на повільній мережі не блокує сторінку довше.
+   0) ПРЕЛОАДЕР — чисто візуальний ефект (запит клієнта), НЕ технічна
+   заглушка: фіксована коротка пауза, без очікування шрифтів/картинок
+   (ті чекання давали непередбачувані затримки в Safari на мобільній мережі).
 ===================================================================== */
 (function () {
   const pre = document.getElementById("preloader");
   if (!pre) return;
 
   document.documentElement.classList.add("is-loading");
-  const shownAt = Date.now();
-  const MIN_MS = 900;
-  const MAX_WAIT_MS = 4000;
 
-  function hide() {
-    const wait = Math.max(0, MIN_MS - (Date.now() - shownAt));
-    setTimeout(function () {
-      pre.classList.add("preloader--hidden");
-      document.documentElement.classList.remove("is-loading");
-      document.documentElement.classList.add("page-ready");
-      pre.addEventListener("transitionend", function () { pre.remove(); }, { once: true });
-    }, wait);
-  }
-
-  const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
-
-  const heroImg = document.querySelector(".hero__boy");
-  const heroReady = new Promise(function (resolve) {
-    if (!heroImg || heroImg.complete) return resolve();
-    heroImg.addEventListener("load", resolve, { once: true });
-    heroImg.addEventListener("error", resolve, { once: true });
-  });
-
-  const safety = new Promise(function (resolve) { setTimeout(resolve, MAX_WAIT_MS); });
-
-  Promise.race([Promise.all([fontsReady, heroReady]), safety]).then(hide);
+  setTimeout(function () {
+    pre.classList.add("preloader--hidden");
+    document.documentElement.classList.remove("is-loading");
+    document.documentElement.classList.add("page-ready");
+    pre.addEventListener("transitionend", function () { pre.remove(); }, { once: true });
+  }, 600);
 })();
 
 /* =====================================================================

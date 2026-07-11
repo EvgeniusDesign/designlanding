@@ -9,7 +9,7 @@
     url('../fonts/druk-cyr-medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
-  font-display: block;
+  font-display: optional;
 }
 
 @font-face {
@@ -19,7 +19,7 @@
     url('../fonts/rage-italic.ttf') format('truetype');
   font-weight: 400 700;
   font-style: normal;
-  font-display: block;
+  font-display: optional;
 }
 
 /* =========================================================
