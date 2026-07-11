@@ -1,6 +1,7 @@
 /* =====================================================================
-   0) ПРЕЛОАДЕР — ховається, коли шрифти й картинки готові
-   (з мінімальним часом показу, щоб не блимав на швидкому завантаженні)
+   0) ПРЕЛОАДЕР — ховається, коли готові шрифти й картинка першого екрана
+   (НЕ чекає картинки нижче екрана — вони вантажаться ліниво по скролу).
+   MAX_WAIT_MS — запобіжник: на повільній мережі не блокує сторінку довше.
 ===================================================================== */
 (function () {
   const pre = document.getElementById("preloader");
@@ -9,6 +10,7 @@
   document.documentElement.classList.add("is-loading");
   const shownAt = Date.now();
   const MIN_MS = 900;
+  const MAX_WAIT_MS = 4000;
 
   function hide() {
     const wait = Math.max(0, MIN_MS - (Date.now() - shownAt));
@@ -21,12 +23,17 @@
   }
 
   const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
-  const windowLoaded = new Promise(function (resolve) {
-    if (document.readyState === "complete") resolve();
-    else window.addEventListener("load", resolve, { once: true });
+
+  const heroImg = document.querySelector(".hero__boy");
+  const heroReady = new Promise(function (resolve) {
+    if (!heroImg || heroImg.complete) return resolve();
+    heroImg.addEventListener("load", resolve, { once: true });
+    heroImg.addEventListener("error", resolve, { once: true });
   });
 
-  Promise.all([fontsReady, windowLoaded]).then(hide);
+  const safety = new Promise(function (resolve) { setTimeout(resolve, MAX_WAIT_MS); });
+
+  Promise.race([Promise.all([fontsReady, heroReady]), safety]).then(hide);
 })();
 
 /* =====================================================================
