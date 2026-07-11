@@ -36,13 +36,23 @@
     const text = textNode.textContent.replace(/\s+/g, " ");
     const frag = document.createDocumentFragment();
     const spans = [];
-    for (const ch of text) {
-      const span = document.createElement("span");
-      span.className = "letter";
-      span.textContent = ch === " " ? " " : ch;
-      frag.appendChild(span);
-      spans.push(span);
-    }
+    const words = text.split(" ");
+    words.forEach(function (word, wi) {
+      // кожне слово — окремий inline-block, щоб рядок не рвався посеред слова
+      const wordWrap = document.createElement("span");
+      wordWrap.style.display = "inline-block";
+      for (const ch of word) {
+        const span = document.createElement("span");
+        span.className = "letter";
+        span.textContent = ch;
+        wordWrap.appendChild(span);
+        spans.push(span);
+      }
+      frag.appendChild(wordWrap);
+      if (wi < words.length - 1) {
+        frag.appendChild(document.createTextNode(" "));
+      }
+    });
     parent.replaceChild(frag, textNode);
     return spans;
   }

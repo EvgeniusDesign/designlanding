@@ -9,7 +9,7 @@
     url('../fonts/druk-cyr-medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
 }
 
 @font-face {
@@ -19,7 +19,7 @@
     url('../fonts/rage-italic.ttf') format('truetype');
   font-weight: 400 700;
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
 }
 
 /* =========================================================
@@ -98,13 +98,22 @@ html.is-loading body {
 
 .preloader {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 999;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--dark);
   transition: opacity .5s ease, visibility .5s ease;
+  /* запобіжник: якщо з якоїсь причини JS не сховає прелоадер, CSS зробить це сам через 2с */
+  animation: preloader-failsafe .01s linear 2s forwards;
+}
+
+@keyframes preloader-failsafe {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
 .preloader--hidden {
