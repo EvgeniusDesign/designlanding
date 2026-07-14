@@ -1648,12 +1648,13 @@ html.is-loading body {
 .footer__ig {
   display: inline-flex;
   align-items: center;
+  line-height: 1;
   gap: 5px;
 }
 
 .footer__ig-icon {
-  position: relative;
-  top: 3px;
+  display: block;
+  flex-shrink: 0;
 }
 
 .footer__rule {
