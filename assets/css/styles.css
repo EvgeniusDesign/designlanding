@@ -155,7 +155,6 @@ html.is-loading body {
 .sec-title,
 .day__title,
 .who__title,
-.result__title,
 .hero__title,
 .btn,
 .price__old,
@@ -1166,8 +1165,12 @@ html.is-loading body {
 }
 
 .result__title {
-  font-size: 24px;
-  line-height: 1.08;
+  font-family: var(--f-body);
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: -0.02em;
+  font-size: 18px;
+  line-height: 1.18;
   color: #fff
 }
 
