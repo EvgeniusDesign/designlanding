@@ -1651,6 +1651,11 @@ html.is-loading body {
   gap: 5px;
 }
 
+.footer__ig-icon {
+  position: relative;
+  top: 2px;
+}
+
 .footer__rule {
   border: 0;
   height: 1px;
